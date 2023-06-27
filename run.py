@@ -33,11 +33,11 @@ def get_expense():
     print(f"You have entered {expense_name}, {expense_amount}")
 
     expense_categories = [
-        "Food", 
-        "Home", 
-        "Work", 
-        "Health", 
-        "Misc"
+        "🍕 Food", 
+        "🏠 Home", 
+        "💼 Work", 
+        "💊 Health", 
+        "🎈 Misc"
     ]
 
     while True:
