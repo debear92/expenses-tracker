@@ -21,15 +21,15 @@ class Expense:
         self.category = category
 
 
-def get_expense(): 
+def get_expense():
     """
     Get expense input from user.
     Convert the amounnt input to a float.
     Offer selected categories to choose from.
     """
     print("Welcome to the Ultimate Expense Tracker!")
-    expense_name = input("Please, enter your expense name: ")
-    expense_amount = float(input("Please, enter your expense amount: "))
+    expense_name = input("Please, enter your expense name: \n")
+    expense_amount = float(input("Please, enter your expense amount: \n"))
     print(f"You have entered {expense_name}, {expense_amount}")
 
     expense_categories = [
@@ -44,6 +44,14 @@ def get_expense():
         print("Select a category: ")
         for i, category_name in enumerate(expense_categories):
             print(f"  {i + 1}.  {category_name}")
+     
+        category_options = f"[1 - {len(expense_categories)}]"
+        chosen_index = int(input(f"Enter a category number {category_options}:")) - 1
+
+        if chosen_index in range(len(expense_categories)):
+            break
+        else:
+            print("Invalid category. Please try again!")
   
         break
 
