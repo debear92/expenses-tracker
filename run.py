@@ -20,6 +20,12 @@ class Expense:
         self.amount = amount
         self.category = category
 
+    def __repr__(self):
+        """
+        Returns a printable representational string of the specified object.
+        """
+        return f"Expense: {self.name}, €{self.amount}, {self.category}"
+
 
 def get_expense():
     """
@@ -30,7 +36,6 @@ def get_expense():
     print("Welcome to the Ultimate Expense Tracker!")
     expense_name = input("Please, enter your expense name: \n")
     expense_amount = float(input("Please, enter your expense amount: \n"))
-    print(f"You have entered {expense_name}, {expense_amount}")
 
     expense_categories = [
         "🍕 Food", 
@@ -46,14 +51,21 @@ def get_expense():
             print(f"  {i + 1}.  {category_name}")
      
         category_options = f"[1 - {len(expense_categories)}]"
-        chosen_index = int(input(f"Enter a category number {category_options}:")) - 1
+        chosen_index = int(
+            input(f"Enter a category number {category_options}:")) - 1
 
         if chosen_index in range(len(expense_categories)):
-            break
+            selected_category = expense_categories[chosen_index]
+            new_expense = Expense(
+                expense_name, expense_amount, selected_category)
+
+            return new_expense
+
         else:
             print("Invalid category. Please try again!")
   
         break
 
 
-get_expense()
+expense = get_expense()
+print(expense)
