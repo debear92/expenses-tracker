@@ -25,7 +25,9 @@ class Expense:
         """
         Returns a printable representational string of the specified object.
         """
-        return f"Expense: On {self.date} you have spent €{self.amount} for {self.name}"
+        return (
+            f"Expense: On {self.date} you have spent €{self.amount} for {self.name}"
+        )
 
 
 def get_expense():
@@ -37,12 +39,11 @@ def get_expense():
     expense_date = input("Please enter your expense date (DD-MM-YYYY): \n")
     expense_name = input("Please, enter your expense name: \n")
     expense_amount = float(input("Please, enter your expense amount: \n"))
-    
     expense_categories = [
-        "🍕 Food", 
-        "🏠 Home", 
-        "💼 Work", 
-        "💊 Health", 
+        "🍕 Food",
+        "🏠 Home",
+        "💼 Work",
+        "💊 Health",
         "🎈 Misc"
     ]
 
@@ -50,7 +51,6 @@ def get_expense():
         print("Select a category: ")
         for i, category_name in enumerate(expense_categories):
             print(f"  {i + 1}.  {category_name}")
-     
         category_options = f"[1 - {len(expense_categories)}]"
         chosen_index = int(
             input(f"Enter a category number {category_options}:")) - 1
@@ -64,11 +64,10 @@ def get_expense():
 
         else:
             print("Invalid category. Please try again!")
-  
         break
 
 
-def update_file(expense, SHEET):
+def update_file(expense):
     """
     Update the google sheet with the data provided by the user.
     """
@@ -95,7 +94,7 @@ def main():
     """
     print("Welcome to the Ultimate Expense Tracker!")
     expense = get_expense()
-    update_file(expense, SHEET)
+    update_file(expense)
 
 
 main()
