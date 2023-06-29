@@ -33,7 +33,6 @@ def get_expense():
     Convert the amounnt input to a float.
     Offer selected categories to choose from.
     """
-    print("Welcome to the Ultimate Expense Tracker!")
     expense_name = input("Please, enter your expense name: \n")
     expense_amount = float(input("Please, enter your expense amount: \n"))
 
@@ -67,5 +66,33 @@ def get_expense():
         break
 
 
-expense = get_expense()
-print(expense)
+def update_file(expense, SHEET):
+    """
+    Update the google sheet with the data provided by the user.
+    """
+    print(f"Saving User Expense: {expense}")
+
+    # Extract expense attributes
+    expense_name = expense.name
+    expense_amount = expense.amount
+    expense_category = expense.category
+    
+    # Open the expense_tracker worksheet
+    expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
+
+    # Append expense data to the worksheet
+    expense_tracker_sheet.append_row(
+        [expense_name, expense_amount, expense_category])
+    print("User Expense saved successfully\n")
+
+
+def main():
+    """
+    Run program.
+    """
+    print("Welcome to the Ultimate Expense Tracker!")
+    expense = get_expense()
+    update_file(expense, SHEET)
+
+
+main()
