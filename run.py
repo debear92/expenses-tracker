@@ -15,16 +15,17 @@ SHEET = GSPREAD_CLIENT.open('expenses_tracker')
 
 class Expense:
     "Creates an instance of Expense."
-    def __init__(self, name, amount, category):
+    def __init__(self, date, name, amount, category):
+        self.date = date
         self.name = name
-        self.amount = amount
         self.category = category
+        self.amount = amount
 
     def __repr__(self):
         """
         Returns a printable representational string of the specified object.
         """
-        return f"Expense: {self.name}, €{self.amount}, {self.category}"
+        return f"Expense: On {self.date} you have spent €{self.amount} for {self.name}"
 
 
 def get_expense():
@@ -33,9 +34,10 @@ def get_expense():
     Convert the amounnt input to a float.
     Offer selected categories to choose from.
     """
+    expense_date = input("Please enter your expense date (DD-MM-YYYY): \n")
     expense_name = input("Please, enter your expense name: \n")
     expense_amount = float(input("Please, enter your expense amount: \n"))
-
+    
     expense_categories = [
         "🍕 Food", 
         "🏠 Home", 
@@ -56,7 +58,7 @@ def get_expense():
         if chosen_index in range(len(expense_categories)):
             selected_category = expense_categories[chosen_index]
             new_expense = Expense(
-                expense_name, expense_amount, selected_category)
+                expense_date, expense_name, expense_amount, selected_category)
 
             return new_expense
 
@@ -73,6 +75,7 @@ def update_file(expense, SHEET):
     print(f"Saving User Expense: {expense}")
 
     # Extract expense attributes
+    expense_date = expense.date
     expense_name = expense.name
     expense_amount = expense.amount
     expense_category = expense.category
@@ -82,7 +85,7 @@ def update_file(expense, SHEET):
 
     # Append expense data to the worksheet
     expense_tracker_sheet.append_row(
-        [expense_name, expense_amount, expense_category])
+        [expense_date, expense_name, expense_amount, expense_category])
     print("User Expense saved successfully\n")
 
 
