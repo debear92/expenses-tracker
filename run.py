@@ -104,6 +104,14 @@ def view_expenses():
         else:
             print("No expense found.")
 
+def calculate_total_expenses():
+    """
+    Allow user to calculate the ttal expenses over a specific period.
+    This can help users understand their overall spending.
+    """
+    expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
+    expense_records = expense_tracker_sheet.get_all_records()
+
 
 def main():
     """
