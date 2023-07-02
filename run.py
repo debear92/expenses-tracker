@@ -26,7 +26,8 @@ class Expense:
         Returns a printable representational string of the specified object.
         """
         return (
-            f"Expense: On {self.date} you have spent €{self.amount} for {self.name}"
+            f"Expense: On {self.date} you have spent \
+            €{self.amount} for {self.name}"
         )
 
 
@@ -88,6 +89,22 @@ def update_file(expense):
     print("User Expense saved successfully\n")
 
 
+def view_expenses():
+    """
+    Allow user to view their previously recorded expenses. 
+    """
+    expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
+    expense_records = expense_tracker_sheet.get_all_records()
+    if expense_records: 
+        for expense in expense_records:
+            print(
+                f"Date: {expense['Date']}, Name: {expense['Name']}, \
+                Amount: €{expense['Amount']}, Category: {expense['Category']}"
+                )
+        else:
+            print("No expense found.")
+
+
 def main():
     """
     Run program.
@@ -98,3 +115,4 @@ def main():
 
 
 main()
+view_expenses()
