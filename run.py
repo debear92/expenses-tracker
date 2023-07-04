@@ -146,12 +146,19 @@ def update_file(expense):
     print("User Expense saved successfully\n")
     
 
-def view_expenses():
+def view_expenses(period):
     """
     Allow user to view their previously recorded expenses.
+    User can choose if to view all the expenses logged, 
+    the expenses for the month or for the day.
     """
     expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
-    expense_records = expense_tracker_sheet.get_all_records()
+    if period == "all":
+        expense_records = expense_tracker_sheet.get_all_records()
+    elif period == "month":
+        expense_records = get_expenses_for_current_month(expense_tracker_sheet)
+    elif period == "today":
+        expense_records = get_expenses_for_today(expense_tracker_sheet)
     if expense_records:
         for expense in expense_records:
             print(
@@ -163,6 +170,7 @@ def view_expenses():
     else:
         print("No expense found.")
     main()
+
 
 
 def calculate_total_expenses():
