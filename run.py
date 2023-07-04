@@ -30,6 +30,33 @@ class Expense:
             f"Expense: On {self.date} you have spent €{self.amount} for {self.name}"
         )
 
+def main():
+    """
+    Run program.
+    """
+    print("Welcome to the Ultimate Expense Tracker! /n")
+
+    while True: 
+        print("What do you want to do today?")
+        print("1. Add a new expense.")
+        print("2. View expenses")
+        print("3. Calculate total expenses")
+        print("4. Exit")
+
+        option = input("Enter your choice: ")
+        if option == "1":
+            expense = get_expense
+            update_file(expense)
+        elif option == "2":
+            view_expenses()
+        elif option == "3": 
+            calculate_total_expenses()
+        elif option == "0":
+            print("Thank you for using the Ultimate Expense Tracker! Have a nice day!")
+            break
+        else:
+            print("Invalid option. Please try again.")
+
 
 def get_expense():
     """
@@ -140,15 +167,6 @@ def calculate_total_expenses():
     expense_records = expense_tracker_sheet.get_all_records()
     total_expenses = sum(expense['Amount'] for expense in expense_records)
     print(f"Total Expenses: €{total_expenses}")
-
-
-def main():
-    """
-    Run program.
-    """
-    print("Welcome to the Ultimate Expense Tracker!")
-    expense = get_expense()
-    update_file(expense)
 
 
 main()
