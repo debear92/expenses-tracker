@@ -122,7 +122,6 @@ def get_expense():
         except ValueError:
             print(f"{expense_categories} is invalid. \n"
                   "Please enter a numeric value.")
-    main()
     
 
 def update_file(expense):
@@ -149,14 +148,16 @@ def update_file(expense):
 def view_expenses():
     """
     Allow the user to view their previously recorded expenses.
-    Users can choose if to view all the expenses logged, 
-    the expenses for the month or for the day.
+    Users can choose if to view all expenses logged, 
+    all the expenses for a chosen category
+    or all the expenses for a certain timeframe.
     """
     print("What expenses would you like to view?")
     print("1. All expenses logged")
     print("2. This month's expenses")
     print("3. Today's expenses")
-    print("4. Go back to the main menu")
+    print("4. Expenses by category")
+    print("5. Go back to the main menu")
     choice = input("Enter your choice: ")
     expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
     if choice == "1":
@@ -166,6 +167,8 @@ def view_expenses():
     elif choice == "3":
         expense_records = get_expenses_for_today(expense_tracker_sheet)
     elif choice == "4":
+        expense_records = get_expense_by_category()
+    elif choice == "5":
         main()
         return
     else:
@@ -195,19 +198,64 @@ def get_expenses_for_current_month(sheet):
     return [
         expense 
         for expense in expenses 
-        if datetime.datetime.strptime(expense['Date'], "%d/%m/%Y").month == current_month
+        if datetime.datetime.strptime(
+            expense['Date'], "%d/%m/%Y"
+            ).month == current_month
     ]
 
 
 def get_expenses_for_today(sheet):
+    """
+    Allow the user to review the expenses logged in that day.
+    """
     today = datetime.datetime.now().date()
     expenses = sheet.get_all_records()
     return [
         expense 
         for expense in expenses 
-        if datetime.datetime.strptime(expense['Date'], "%d/%m/%Y").date() == today
+        if datetime.datetime.strptime(
+            expense['Date'], "%d/%m/%Y"
+            ).date() == today
     ]
 
+
+def get_expense_by_category():
+    """
+    Get the expenses for a specific category.
+    """
+    expense_categories = [
+        "🍕 Food",
+        "🏠 Home",
+        "💼 Work",
+        "💊 Health",
+        "🎈 Misc"
+    ]
+
+    print("Select a category: ")
+    for i, category_name in enumerate(expense_categories):
+        print(f"  {i + 1}.  {category_name}")
+    category_options = f"[1 - {len(expense_categories)}]"
+    chosen_index = input(f"Enter a category number {category_options}:")
+    try:
+        chosen_index = int(chosen_index)
+        if chosen_index in range(1, len(expense_categories) + 1):
+            selected_category = expense_categories[chosen_index - 1]
+            expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
+            expenses = expense_tracker_sheet.get_all_records()
+            expense_records = [
+                expense
+                for expense in expenses
+                if expense['Category'] == selected_category
+            ]
+            return expense_records
+        else:
+            print("Invalid category number. Please try again!")
+            return []
+    except ValueError:
+        print(f"{expense_categories} is invalid. \n"
+              "Please enter a numeric value.")
+    return []
+    
 
 def calculate_total_expenses():
     """
