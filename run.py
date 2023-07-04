@@ -252,7 +252,7 @@ def get_expense_by_category():
             print("Invalid category number. Please try again!")
             return []
     except ValueError:
-        print(f"{expense_categories} is invalid. \n"
+        print(f"{expense_categories} is invalid."
               "Please enter a numeric value.")
     return []
     
@@ -264,8 +264,35 @@ def calculate_total_expenses():
     """
     expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
     expense_records = expense_tracker_sheet.get_all_records()
-    total_expenses = sum(expense['Amount'] for expense in expense_records)
-    print(f"Total Expenses: €{total_expenses}")
+
+    if not expense_records:
+        print("No expenses found.")
+        return
+    print("Choose an option to calculate the total expenses:")
+    print("1. Total expenses for all records")
+    print("2. Total expenses for a specific category")
+    print("3. Total expenses within a date range")
+    option = input("Enter your choice: ")
+
+    if option == "1":
+        total_expenses = sum(expense['Amount'] for expense in expense_records)
+    elif option == "2":
+        category = input("Enter the category to calculate total expenses:")
+        total_expenses = sum(
+            expense['Amount'] for expense in expense_records
+            if expense['Category'] == category
+        )
+    elif option == "3":
+        start_date = input("Enter the start date (DD/MM/YYYY): ")
+        end_date = input("Enter the end date (DD/MM/YYYY): ")
+        total_expenses = sum(
+            expense['Amount'] for expense in expense_records
+            if is_within_date_range(expense['Date'], start_date, end_date)
+        )
+    else:
+        print("Invalid option selected.")
+        return
+    print(f"Total Expenses: {format_currency(total_expenses)}")
     main()
 
 
