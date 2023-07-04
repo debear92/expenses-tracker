@@ -27,8 +27,7 @@ class Expense:
         Returns a printable representational string of the specified object.
         """
         return (
-            f"Expense: On {self.date} you have spent \
-            €{self.amount} for {self.name}"
+            f"Expense: On {self.date} you have spent €{self.amount} for {self.name}"
         )
 
 
@@ -39,16 +38,31 @@ def get_expense():
     Offer selected categories to choose from.
     """
     while True:
-        expense_date = input("Please enter your expense date (DD-MM-YYYY): \n")
+        expense_date = input("Please enter your expense date (DD/MM/YYYY): \n")
         try:
+            # Validate expense date format
             datetime.datetime.strptime(expense_date, "%d/%m/%Y")
             break
         except ValueError as e:
-            print(f"Invalid date: {e}. \
-            Please enter the date in DD-MM-YYYY format")
+            print(
+                f"Invalid date: {e}. Please enter the date as DD/MM/YYYY."
+                )
 
     expense_name = input("Please, enter your expense name: \n")
-    expense_amount = float(input("Please, enter your expense amount: \n"))
+
+    while True:
+        expense_amount = (input("Please, enter your expense amount: \n"))
+        try:
+            # Validate expense amount.
+            # Check if input is a number and if the number is positive.
+            expense_amount = float(expense_amount)
+            if expense_amount > 0:
+                break
+            else:
+                print("Invalid amount. Please enter a positive number.")
+        except ValueError:
+            print("Invalid amount. Please enter a numeric value.")
+
     expense_categories = [
         "🍕 Food",
         "🏠 Home",
@@ -62,19 +76,23 @@ def get_expense():
         for i, category_name in enumerate(expense_categories):
             print(f"  {i + 1}.  {category_name}")
         category_options = f"[1 - {len(expense_categories)}]"
-        chosen_index = int(
-            input(f"Enter a category number {category_options}:")) - 1
+        chosen_index = input(f"Enter a category number {category_options}:")
+        
+        try:
+            chosen_index = int(chosen_index)
+            if chosen_index in range(1, len(expense_categories) + 1):
+                selected_category = expense_categories[chosen_index - 1]
+                new_expense = Expense(
+                    expense_date, expense_name, 
+                    expense_amount, selected_category)
 
-        if chosen_index in range(len(expense_categories)):
-            selected_category = expense_categories[chosen_index]
-            new_expense = Expense(
-                expense_date, expense_name, expense_amount, selected_category)
+                return new_expense
 
-            return new_expense
-
-        else:
-            print("Invalid category. Please try again!")
-        break
+            else:
+                print("Invalid category. Please try again!")
+        except ValueError:
+            print(f"{expense_categories} is invalid. Please enter a numeric value.")
+        
 
 
 def update_file(expense):
