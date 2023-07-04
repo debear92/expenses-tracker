@@ -50,7 +50,7 @@ def main():
             expense = get_expense()
             update_file(expense)
         elif option == "2":
-            view_expenses()
+            view_expenses(period)
         elif option == "3":
             calculate_total_expenses()
         elif option == "4":
@@ -171,7 +171,13 @@ def view_expenses(period):
         print("No expense found.")
     main()
 
-
+def get_expenses_for_current_month(sheet): 
+    """
+    Allow the user to review the expenses logged in that particular month.
+    """
+    current_month = datetime.datetime.now().month
+    expenses = sheet.get_all_records()
+    return [expense for expense in expenses if expense['Date'].month == current_month]
 
 def calculate_total_expenses():
     """
