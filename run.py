@@ -50,7 +50,7 @@ def main():
             expense = get_expense()
             update_file(expense)
         elif option == "2":
-            view_expenses(period)
+            view_expenses()
         elif option == "3":
             calculate_total_expenses()
         elif option == "4":
@@ -146,19 +146,33 @@ def update_file(expense):
     print("User Expense saved successfully\n")
     
 
-def view_expenses(period):
+def view_expenses():
     """
-    Allow user to view their previously recorded expenses.
-    User can choose if to view all the expenses logged, 
+    Allow the user to view their previously recorded expenses.
+    Users can choose if to view all the expenses logged, 
     the expenses for the month or for the day.
     """
+    print("What expenses would you like to view?")
+    print("1. All expenses logged")
+    print("2. This month's expenses")
+    print("3. Today's expenses")
+    print("4. Go back to the main menu")
+    choice = input("Enter your choice: ")
     expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
-    if period == "all":
+    if choice == "1":
         expense_records = expense_tracker_sheet.get_all_records()
-    elif period == "month":
+    elif choice == "2":
         expense_records = get_expenses_for_current_month(expense_tracker_sheet)
-    elif period == "today":
+    elif choice == "3":
         expense_records = get_expenses_for_today(expense_tracker_sheet)
+    elif choice == "4":
+        main()
+        return
+    else:
+        print("Invalid timeframe selected. Please try again.")
+        view_expenses()
+        return
+        
     if expense_records:
         for expense in expense_records:
             print(
@@ -169,7 +183,8 @@ def view_expenses(period):
             )
     else:
         print("No expense found.")
-    main()
+    view_expenses()
+    
 
 def get_expenses_for_current_month(sheet): 
     """
@@ -177,12 +192,21 @@ def get_expenses_for_current_month(sheet):
     """
     current_month = datetime.datetime.now().month
     expenses = sheet.get_all_records()
-    return [expense for expense in expenses if expense['Date'].month == current_month]
+    return [
+        expense 
+        for expense in expenses 
+        if datetime.datetime.strptime(expense['Date'], "%d/%m/%Y").month == current_month
+    ]
+
 
 def get_expenses_for_today(sheet):
     today = datetime.datetime.now().date()
     expenses = sheet.get_all_records()
-    return [expense for expense in expenses if expense['Date'].date == today]
+    return [
+        expense 
+        for expense in expenses 
+        if datetime.datetime.strptime(expense['Date'], "%d/%m/%Y").date() == today
+    ]
 
 
 def calculate_total_expenses():
