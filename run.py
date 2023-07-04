@@ -119,6 +119,7 @@ def get_expense():
                 print("Invalid category. Please try again!")
         except ValueError:
             print(f"{expense_categories} is invalid. Please enter a numeric value.")
+    main()
         
 
 def update_file(expense):
@@ -140,6 +141,7 @@ def update_file(expense):
     expense_tracker_sheet.append_row(
         [expense_date, expense_name, expense_amount, expense_category])
     print("User Expense saved successfully\n")
+    
 
 
 def view_expenses():
@@ -156,6 +158,7 @@ def view_expenses():
                 )
     else:
         print("No expense found.")
+    main()
 
 
 def calculate_total_expenses():
@@ -167,6 +170,7 @@ def calculate_total_expenses():
     expense_records = expense_tracker_sheet.get_all_records()
     total_expenses = sum(expense['Amount'] for expense in expense_records)
     print(f"Total Expenses: €{total_expenses}")
+    main()
 
 
 main()
