@@ -238,29 +238,29 @@ def get_expense_by_category():
         "🎈 Misc"
     ]
 
-    print("Select a category: ")
-    for i, category_name in enumerate(expense_categories):
-        print(f"  {i + 1}.  {category_name}")
-    category_options = f"[1 - {len(expense_categories)}]"
-    chosen_index = input(f"Enter a category number {category_options}:")
-    try:
-        chosen_index = int(chosen_index)
-        if chosen_index in range(1, len(expense_categories) + 1):
-            selected_category = expense_categories[chosen_index - 1]
-            expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
-            expenses = expense_tracker_sheet.get_all_records()
-            expense_records = [
-                expense
-                for expense in expenses
-                if expense['Category'] == selected_category
-            ]
-            return expense_records
-        else:
-            print("Invalid category number. Please try again!")
-            return []
-    except ValueError:
-        print(f"{expense_categories} is invalid."
-              "Please enter a numeric value.")
+    while True:
+        print("Select a category: ")
+        for i, category_name in enumerate(expense_categories):
+            print(f"  {i + 1}.  {category_name}")
+        category_options = f"[1 - {len(expense_categories)}]"
+        chosen_index = input(f"Enter a category number {category_options}:")
+        try:
+            chosen_index = int(chosen_index)
+            if chosen_index in range(1, len(expense_categories) + 1):
+                selected_category = expense_categories[chosen_index - 1]
+                expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
+                expenses = expense_tracker_sheet.get_all_records()
+                expense_records = [
+                    expense
+                    for expense in expenses
+                    if expense['Category'] == selected_category
+                ]
+                return expense_records
+            else:
+                print("Invalid category number. Please try again!")
+        except ValueError:
+            print(f"{expense_categories} is invalid."
+                  "Please enter a numeric value.")
     return []
     
 
@@ -285,14 +285,24 @@ def calculate_total_expenses():
     if option == "1":
         total_expenses = sum(expense['Amount'] for expense in expense_records)
     elif option == "2":
-        get_expense_by_category()
+        expense_records = get_expense_by_category()
         total_expenses = sum(
             expense['Amount'] for expense in expense_records
-            if expense['Category'] == category
         )
     elif option == "3":
-        start_date = input("Enter the start date (DD/MM/YYYY): ")
-        end_date = input("Enter the end date (DD/MM/YYYY): ")
+        while True:
+            start_date = input("Enter the start date (DD/MM/YYYY): ")
+            if not is_valid_date(start_date):
+                print(f"Invalid date: {start_date}. Please enter the date as DD/MM/YYYY.")
+            else:
+                break
+        while True:
+            end_date = input("Enter the end date (DD/MM/YYYY): ")
+            if not is_valid_date(end_date):
+                print(f"Invalid date: {end_date}. Please enter the date as DD/MM/YYYY.")
+            else:
+                break
+        is_valid_date(end_date)
         total_expenses = sum(
             expense['Amount'] for expense in expense_records
             if is_within_date_range(expense['Date'], start_date, end_date)
@@ -308,6 +318,8 @@ def is_within_date_range(date, start_date, end_date):
     """
     Check if a given date is within the specified date range
     """
+    if not (is_valid_date(date) and is_valid_date(start_date) and is_valid_date(end_date)):
+        return False
     date = datetime.datetime.strptime(date, "%d/%m/%Y").date()
     start_date = datetime.datetime.strptime(start_date, "%d/%m/%Y").date()
     end_date = datetime.datetime.strptime(end_date, "%d/%m/%Y").date()
@@ -321,3 +333,4 @@ def format_currency(amount):
     return "€{:.2f}".format(amount)
 
 main()
+
