@@ -1,6 +1,6 @@
+import datetime
 import gspread
 from google.oauth2.service_account import Credentials
-import datetime
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -93,7 +93,6 @@ def get_expense():
         except ValueError:
             print(f"{expense_categories} is invalid. Please enter a numeric value.")
         
-
 
 def update_file(expense):
     """
