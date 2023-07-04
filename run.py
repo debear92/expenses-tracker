@@ -259,7 +259,7 @@ def get_expense_by_category():
 
 def calculate_total_expenses():
     """
-    Allow user to calculate the total expenses over a specific period.
+    Allow user to calculate the total expenses over a specific period or category.
     This can help users understand their overall spending.
     """
     expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
@@ -295,5 +295,11 @@ def calculate_total_expenses():
     print(f"Total Expenses: {format_currency(total_expenses)}")
     main()
 
-
+def is_within_date_range(date, start_date, end_date):
+    """
+    Check if a given date is within the specified date range
+    """
+    date = datetime.datetime.strptime(date, "%d/%m/%Y").date()
+    start_date = datetime.datetime.strptime(start_date, "%d/%m/%Y").date()
+    end_date = datetime.datetime.strptime(end_date, "%d/%m/%Y").date()
 main()
