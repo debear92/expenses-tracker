@@ -1,5 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
+import datetime
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -37,7 +38,15 @@ def get_expense():
     Convert the amounnt input to a float.
     Offer selected categories to choose from.
     """
-    expense_date = input("Please enter your expense date (DD-MM-YYYY): \n")
+    while True:
+        expense_date = input("Please enter your expense date (DD-MM-YYYY): \n")
+        try:
+            datetime.datetime.strptime(expense_date, "%d/%m/%Y")
+            break
+        except ValueError as e:
+            print(f"Invalid date: {e}. \
+            Please enter the date in DD-MM-YYYY format")
+
     expense_name = input("Please, enter your expense name: \n")
     expense_amount = float(input("Please, enter your expense amount: \n"))
     expense_categories = [
@@ -107,7 +116,7 @@ def view_expenses():
 
 def calculate_total_expenses():
     """
-    Allow user to calculate the ttal expenses over a specific period.
+    Allow user to calculate the total expenses over a specific period.
     This can help users understand their overall spending.
     """
     expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
