@@ -79,7 +79,7 @@ def update_file(expense):
     expense_name = expense.name
     expense_amount = expense.amount
     expense_category = expense.category
-    
+ 
     # Open the expense_tracker worksheet
     expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
 
@@ -91,18 +91,19 @@ def update_file(expense):
 
 def view_expenses():
     """
-    Allow user to view their previously recorded expenses. 
+    Allow user to view their previously recorded expenses.
     """
     expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
     expense_records = expense_tracker_sheet.get_all_records()
-    if expense_records: 
+    if expense_records:
         for expense in expense_records:
             print(
                 f"Date: {expense['Date']}, Name: {expense['Name']}, \
                 Amount: €{expense['Amount']}, Category: {expense['Category']}"
                 )
-        else:
-            print("No expense found.")
+    else:
+        print("No expense found.")
+
 
 def calculate_total_expenses():
     """
@@ -111,6 +112,8 @@ def calculate_total_expenses():
     """
     expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
     expense_records = expense_tracker_sheet.get_all_records()
+    total_expenses = sum(expense['Amount'] for expense in expense_records)
+    print(f"Total Expenses: €{total_expenses}")
 
 
 def main():
@@ -123,4 +126,3 @@ def main():
 
 
 main()
-view_expenses()
