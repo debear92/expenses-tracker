@@ -69,15 +69,11 @@ def get_expense():
     """
     while True:
         expense_date = input("Please enter your expense date (DD/MM/YYYY): \n")
-        try:
-            # Validate expense date format
-            datetime.datetime.strptime(expense_date, "%d/%m/%Y")
+        if is_valid_date(expense_date):
             break
-        except ValueError as e:
-            print(
-                f"Invalid date: {e}. Please enter the date as DD/MM/YYYY."
-                )
-
+        else:
+            print("Invalid date format. Please enter the date as DD/MM/YYYY.")
+       
     expense_name = input("Please, enter your expense name: \n")
 
     while True:
@@ -122,7 +118,18 @@ def get_expense():
         except ValueError:
             print(f"{expense_categories} is invalid. \n"
                   "Please enter a numeric value.")
-    
+
+  
+def is_valid_date(date_string):
+    """
+    Check if a date string is valid and in the format DD/MM/YYYY.
+    """
+    try:
+        datetime.datetime.strptime(date_string, "%d/%m/%Y")
+        return True
+    except ValueError:
+        return False
+
 
 def update_file(expense):
     """
@@ -259,7 +266,8 @@ def get_expense_by_category():
 
 def calculate_total_expenses():
     """
-    Allow user to calculate the total expenses over a specific period or category.
+    Allow user to calculate the total expenses over a specific 
+    period or category.
     This can help users understand their overall spending.
     """
     expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
@@ -277,7 +285,7 @@ def calculate_total_expenses():
     if option == "1":
         total_expenses = sum(expense['Amount'] for expense in expense_records)
     elif option == "2":
-        category = input("Enter the category to calculate total expenses:")
+        get_expense_by_category()
         total_expenses = sum(
             expense['Amount'] for expense in expense_records
             if expense['Category'] == category
@@ -295,6 +303,7 @@ def calculate_total_expenses():
     print(f"Total Expenses: {format_currency(total_expenses)}")
     main()
 
+
 def is_within_date_range(date, start_date, end_date):
     """
     Check if a given date is within the specified date range
@@ -302,4 +311,13 @@ def is_within_date_range(date, start_date, end_date):
     date = datetime.datetime.strptime(date, "%d/%m/%Y").date()
     start_date = datetime.datetime.strptime(start_date, "%d/%m/%Y").date()
     end_date = datetime.datetime.strptime(end_date, "%d/%m/%Y").date()
+    return start_date <= date <= end_date
+
+
+def format_currency(amount):
+    """
+    Format the amount as currency with appropriate symbols and decimal places.
+    """
+    return "€{:.2f}".format(amount)
+
 main()
