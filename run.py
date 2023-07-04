@@ -179,6 +179,12 @@ def get_expenses_for_current_month(sheet):
     expenses = sheet.get_all_records()
     return [expense for expense in expenses if expense['Date'].month == current_month]
 
+def get_expenses_for_today(sheet):
+    today = datetime.datetime.now().date()
+    expenses = sheet.get_all_records()
+    return [expense for expense in expenses if expense['Date'].date == today]
+
+
 def calculate_total_expenses():
     """
     Allow user to calculate the total expenses over a specific period.
