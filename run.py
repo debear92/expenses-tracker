@@ -27,8 +27,10 @@ class Expense:
         Returns a printable representational string of the specified object.
         """
         return (
-            f"Expense: On {self.date} you have spent €{self.amount} for {self.name}"
+            f"Expense:"
+            f"On {self.date} you have spent €{self.amount} for {self.name}"
         )
+
 
 def main():
     """
@@ -36,7 +38,7 @@ def main():
     """
     print("Welcome to the Ultimate Expense Tracker! /n")
 
-    while True: 
+    while True:
         print("What do you want to do today?")
         print("1. Add a new expense.")
         print("2. View expenses")
@@ -45,14 +47,15 @@ def main():
 
         option = input("Enter your choice: ")
         if option == "1":
-            expense = get_expense
+            expense = get_expense()
             update_file(expense)
         elif option == "2":
             view_expenses()
-        elif option == "3": 
+        elif option == "3":
             calculate_total_expenses()
-        elif option == "0":
-            print("Thank you for using the Ultimate Expense Tracker! Have a nice day!")
+        elif option == "4":
+            print("Thank you for using the Ultimate Expense Tracker! \n"
+                  "Have a nice day!")
             break
         else:
             print("Invalid option. Please try again.")
@@ -78,7 +81,7 @@ def get_expense():
     expense_name = input("Please, enter your expense name: \n")
 
     while True:
-        expense_amount = (input("Please, enter your expense amount: \n"))
+        expense_amount = input("Please, enter your expense amount: \n")
         try:
             # Validate expense amount.
             # Check if input is a number and if the number is positive.
@@ -104,13 +107,12 @@ def get_expense():
             print(f"  {i + 1}.  {category_name}")
         category_options = f"[1 - {len(expense_categories)}]"
         chosen_index = input(f"Enter a category number {category_options}:")
-        
         try:
             chosen_index = int(chosen_index)
             if chosen_index in range(1, len(expense_categories) + 1):
                 selected_category = expense_categories[chosen_index - 1]
                 new_expense = Expense(
-                    expense_date, expense_name, 
+                    expense_date, expense_name,
                     expense_amount, selected_category)
 
                 return new_expense
@@ -118,9 +120,10 @@ def get_expense():
             else:
                 print("Invalid category. Please try again!")
         except ValueError:
-            print(f"{expense_categories} is invalid. Please enter a numeric value.")
+            print(f"{expense_categories} is invalid. \n"
+                  "Please enter a numeric value.")
     main()
-        
+    
 
 def update_file(expense):
     """
@@ -143,7 +146,6 @@ def update_file(expense):
     print("User Expense saved successfully\n")
     
 
-
 def view_expenses():
     """
     Allow user to view their previously recorded expenses.
@@ -153,9 +155,11 @@ def view_expenses():
     if expense_records:
         for expense in expense_records:
             print(
-                f"Date: {expense['Date']}, Name: {expense['Name']}, \
-                Amount: €{expense['Amount']}, Category: {expense['Category']}"
-                )
+                f"Date: {expense['Date']}, "
+                f"Name: {expense['Name']}, "
+                f"Amount: €{expense['Amount']}, "
+                f"Category: {expense['Category']}"
+            )
     else:
         print("No expense found.")
     main()
