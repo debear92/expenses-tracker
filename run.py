@@ -27,7 +27,7 @@ class Expense:
         Returns a printable representational string of the specified object.
         """
         return (
-            f"Expense:"
+            "Expense:"
             f"On {self.date} you have spent €{self.amount} for {self.name}"
         )
 
@@ -56,7 +56,7 @@ def main():
         elif option == "4":
             print("Thank you for using the Ultimate Expense Tracker! \n"
                   "Have a nice day!")
-            break
+            exit()
         else:
             print("Invalid option. Please try again.")
 
@@ -116,7 +116,7 @@ def get_expense():
             else:
                 print("Invalid category. Please try again!")
         except ValueError:
-            print(f"{expense_categories} is invalid. \n"
+            print(f"{expense_categories} is invalid."
                   "Please enter a numeric value.")
 
   
@@ -149,7 +149,7 @@ def update_file(expense):
     # Append expense data to the worksheet
     expense_tracker_sheet.append_row(
         [expense_date, expense_name, expense_amount, expense_category])
-    print("User Expense saved successfully\n")
+    print("User Expense saved successfully")
     
 
 def view_expenses():
@@ -293,13 +293,15 @@ def calculate_total_expenses():
         while True:
             start_date = input("Enter the start date (DD/MM/YYYY): ")
             if not is_valid_date(start_date):
-                print(f"Invalid date: {start_date}. Please enter the date as DD/MM/YYYY.")
+                print(f"Invalid date: {start_date}."
+                      "Please enter the date as DD/MM/YYYY.")
             else:
                 break
         while True:
             end_date = input("Enter the end date (DD/MM/YYYY): ")
             if not is_valid_date(end_date):
-                print(f"Invalid date: {end_date}. Please enter the date as DD/MM/YYYY.")
+                print(f"Invalid date: {end_date}." 
+                      "Please enter the date as DD/MM/YYYY.")
             else:
                 break
         is_valid_date(end_date)
@@ -311,7 +313,6 @@ def calculate_total_expenses():
         print("Invalid option selected.")
         return
     print(f"Total Expenses: {format_currency(total_expenses)}")
-    main()
 
 
 def is_within_date_range(date, start_date, end_date):
@@ -333,4 +334,5 @@ def format_currency(amount):
     return "€{:.2f}".format(amount)
 
 main()
+
 
