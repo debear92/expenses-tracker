@@ -6,7 +6,7 @@ SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive.file",
     "https://www.googleapis.com/auth/drive"
-    ]
+]
 
 CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
@@ -16,6 +16,7 @@ SHEET = GSPREAD_CLIENT.open('expenses_tracker')
 
 class Expense:
     "Creates an instance of Expense."
+
     def __init__(self, date, name, amount, category):
         self.date = date
         self.name = name
@@ -73,7 +74,7 @@ def get_expense():
             break
         else:
             print("Invalid date format. Please enter the date as DD/MM/YYYY.")
-   
+
     expense_name = input("Please, enter your expense name: \n")
 
     while True:
@@ -119,7 +120,7 @@ def get_expense():
             print(f"{expense_categories} is invalid."
                   "Please enter a numeric value.")
 
-  
+
 def is_valid_date(date_string):
     """
     Check if a date string is valid and in the format DD/MM/YYYY.
@@ -142,7 +143,7 @@ def update_file(expense):
     expense_name = expense.name
     expense_amount = expense.amount
     expense_category = expense.category
- 
+
     # Open the expense_tracker worksheet
     expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
 
@@ -150,7 +151,7 @@ def update_file(expense):
     expense_tracker_sheet.append_row(
         [expense_date, expense_name, expense_amount, expense_category])
     print("User Expense saved successfully")
-    
+
 
 def view_expenses():
     """
@@ -182,7 +183,7 @@ def view_expenses():
         print("Invalid timeframe selected. Please try again.")
         view_expenses()
         return
-        
+
     if expense_records:
         for expense in expense_records:
             print(
@@ -194,20 +195,20 @@ def view_expenses():
     else:
         print("No expense found.")
     view_expenses()
-    
 
-def get_expenses_for_current_month(sheet): 
+
+def get_expenses_for_current_month(sheet):
     """
     Allow the user to review the expenses logged in that particular month.
     """
     current_month = datetime.datetime.now().month
     expenses = sheet.get_all_records()
     return [
-        expense 
-        for expense in expenses 
+        expense
+        for expense in expenses
         if datetime.datetime.strptime(
             expense['Date'], "%d/%m/%Y"
-            ).month == current_month
+        ).month == current_month
     ]
 
 
@@ -218,11 +219,11 @@ def get_expenses_for_today(sheet):
     today = datetime.datetime.now().date()
     expenses = sheet.get_all_records()
     return [
-        expense 
-        for expense in expenses 
+        expense
+        for expense in expenses
         if datetime.datetime.strptime(
             expense['Date'], "%d/%m/%Y"
-            ).date() == today
+        ).date() == today
     ]
 
 
@@ -262,7 +263,7 @@ def get_expense_by_category():
             print(f"{expense_categories} is invalid."
                   "Please enter a numeric value.")
     return []
-    
+
 
 def calculate_total_expenses():
     """
@@ -300,7 +301,7 @@ def calculate_total_expenses():
         while True:
             end_date = input("Enter the end date (DD/MM/YYYY): ")
             if not is_valid_date(end_date):
-                print(f"Invalid date: {end_date}." 
+                print(f"Invalid date: {end_date}."
                       "Please enter the date as DD/MM/YYYY.")
             else:
                 break
@@ -319,8 +320,8 @@ def is_within_date_range(date, start_date, end_date):
     """
     Check if a given date is within the specified date range
     """
-    if not (is_valid_date(date) and 
-            is_valid_date(start_date) and 
+    if not (is_valid_date(date) and
+            is_valid_date(start_date) and
             is_valid_date(end_date)):
         return False
     date = datetime.datetime.strptime(date, "%d/%m/%Y").date()
@@ -339,5 +340,3 @@ def format_currency(amount):
 if __name__ == "__main__":
     print("Welcome to the Ultimate Expense Tracker!")
     manage_menus()
-
-
