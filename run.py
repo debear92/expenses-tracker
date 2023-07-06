@@ -32,11 +32,11 @@ class Expense:
         )
 
 
-def main():
+def manage_menus():
     """
-    Run program.
+    Display menus and handle user input for selecting options.
     """
-    print("Welcome to the Ultimate Expense Tracker! /n")
+    print("Welcome to the Ultimate Expense Tracker!")
 
     while True:
         print("What do you want to do today?")
@@ -73,7 +73,7 @@ def get_expense():
             break
         else:
             print("Invalid date format. Please enter the date as DD/MM/YYYY.")
-       
+   
     expense_name = input("Please, enter your expense name: \n")
 
     while True:
@@ -155,7 +155,7 @@ def update_file(expense):
 def view_expenses():
     """
     Allow the user to view their previously recorded expenses.
-    Users can choose if to view all expenses logged, 
+    Users can choose if to view all expenses logged,
     all the expenses for a chosen category
     or all the expenses for a certain timeframe.
     """
@@ -176,7 +176,7 @@ def view_expenses():
     elif choice == "4":
         expense_records = get_expense_by_category()
     elif choice == "5":
-        main()
+        manage_menus()
         return
     else:
         print("Invalid timeframe selected. Please try again.")
@@ -319,7 +319,9 @@ def is_within_date_range(date, start_date, end_date):
     """
     Check if a given date is within the specified date range
     """
-    if not (is_valid_date(date) and is_valid_date(start_date) and is_valid_date(end_date)):
+    if not (is_valid_date(date) and 
+            is_valid_date(start_date) and 
+            is_valid_date(end_date)):
         return False
     date = datetime.datetime.strptime(date, "%d/%m/%Y").date()
     start_date = datetime.datetime.strptime(start_date, "%d/%m/%Y").date()
@@ -333,6 +335,9 @@ def format_currency(amount):
     """
     return "€{:.2f}".format(amount)
 
-main()
+
+if __name__ == "__main__":
+    print("Welcome to the Ultimate Expense Tracker!")
+    manage_menus()
 
 
