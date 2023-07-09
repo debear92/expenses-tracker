@@ -12,6 +12,13 @@ CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('expenses_tracker')
+EXPENSE_CATEGORIES = [
+        "🍕 Food",
+        "🏠 Home",
+        "💼 Work",
+        "💊 Health",
+        "🎈 Misc"
+]
 
 
 class Expense:
@@ -89,25 +96,16 @@ def get_expense():
                 print("Invalid amount. Please enter a positive number.")
         except ValueError:
             print("Invalid amount. Please enter a numeric value.")
-
-    expense_categories = [
-        "🍕 Food",
-        "🏠 Home",
-        "💼 Work",
-        "💊 Health",
-        "🎈 Misc"
-    ]
-
     while True:
         print("Select a category: ")
-        for i, category_name in enumerate(expense_categories):
+        for i, category_name in enumerate(EXPENSE_CATEGORIES):
             print(f"  {i + 1}.  {category_name}")
-        category_options = f"[1 - {len(expense_categories)}]"
+        category_options = f"[1 - {len(EXPENSE_CATEGORIES)}]"
         chosen_index = input(f"Enter a category number {category_options}:")
         try:
             chosen_index = int(chosen_index)
-            if chosen_index in range(1, len(expense_categories) + 1):
-                selected_category = expense_categories[chosen_index - 1]
+            if chosen_index in range(1, len(EXPENSE_CATEGORIES) + 1):
+                selected_category = EXPENSE_CATEGORIES[chosen_index - 1]
                 new_expense = Expense(
                     expense_date, expense_name,
                     expense_amount, selected_category)
@@ -117,7 +115,7 @@ def get_expense():
             else:
                 print("Invalid category. Please try again!")
         except ValueError:
-            print(f"{expense_categories} is invalid."
+            print(f"{EXPENSE_CATEGORIES} is invalid."
                   "Please enter a numeric value.")
 
 
@@ -231,24 +229,16 @@ def get_expense_by_category():
     """
     Get the expenses for a specific category.
     """
-    expense_categories = [
-        "🍕 Food",
-        "🏠 Home",
-        "💼 Work",
-        "💊 Health",
-        "🎈 Misc"
-    ]
-
     while True:
         print("Select a category: ")
-        for i, category_name in enumerate(expense_categories):
+        for i, category_name in enumerate(EXPENSE_CATEGORIES):
             print(f"  {i + 1}.  {category_name}")
-        category_options = f"[1 - {len(expense_categories)}]"
+        category_options = f"[1 - {len(EXPENSE_CATEGORIES)}]"
         chosen_index = input(f"Enter a category number {category_options}:")
         try:
             chosen_index = int(chosen_index)
-            if chosen_index in range(1, len(expense_categories) + 1):
-                selected_category = expense_categories[chosen_index - 1]
+            if chosen_index in range(1, len(EXPENSE_CATEGORIES) + 1):
+                selected_category = EXPENSE_CATEGORIES[chosen_index - 1]
                 expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
                 expenses = expense_tracker_sheet.get_all_records()
                 expense_records = [
@@ -260,14 +250,14 @@ def get_expense_by_category():
             else:
                 print("Invalid category number. Please try again!")
         except ValueError:
-            print(f"{expense_categories} is invalid."
+            print(f"{EXPENSE_CATEGORIES} is invalid."
                   "Please enter a numeric value.")
     return []
 
 
 def calculate_total_expenses():
     """
-    Allow user to calculate the total expenses over a specific 
+    Allow user to calculate the total expenses over a specific
     period or category.
     This can help users understand their overall spending.
     """
