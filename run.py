@@ -117,6 +117,11 @@ def get_expense():
         except ValueError:
             print(f"{EXPENSE_CATEGORIES} is invalid."
                   "Please enter a numeric value.")
+        except IndexError:
+            print("Invalid category number."
+                  "Please enter a valid category number.")
+
+    return None
 
 
 def is_valid_date(date_string):
@@ -167,7 +172,10 @@ def view_expenses():
     choice = input("Enter your choice: ")
     expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
     if choice == "1":
-        expense_records = expense_tracker_sheet.get_all_records()
+        try:
+            expense_records = expense_tracker_sheet.get_all_records()
+        except gspread.exceptions.APIError:
+            print("Error accessing expense records. Please try again later.")
     elif choice == "2":
         expense_records = get_expenses_for_current_month(expense_tracker_sheet)
     elif choice == "3":
