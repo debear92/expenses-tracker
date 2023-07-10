@@ -36,7 +36,7 @@ class Expense:
         Returns a printable representational string of the specified object.
         """
         return (
-            "Expense:"
+            "Expense: "
             f"On {self.date} you have spent €{self.amount} for {self.name}"
         )
 
@@ -56,7 +56,7 @@ def manage_menus():
         print("5. Calculate savings")
         print("6. Exit")
 
-        option = input("Enter your choice: ")
+        option = input("Enter your choice: \n")
         if option == "1":
             expense = get_expense()
             update_file(expense)
@@ -66,13 +66,13 @@ def manage_menus():
             calculate_total_expenses()
         elif option == "4":
             month = input(
-                "Enter the month (MM: 01, 02, ...): "
+                "Enter the month (MM: 01, 02, ...): \n"
             )
-            amount = float(input("Enter the budget amount: "))
+            amount = float(input("Enter the budget amount: \n"))
             set_budget(month, amount)
         elif option == "5":
             month = input(
-                "Enter the month (MM: 01, 02, ...): "
+                "Enter the month (MM: 01, 02, ...): \n"
             )
             calculate_savings(month)
         elif option == "6":
@@ -104,7 +104,7 @@ def select_category():
 def get_expense():
     """
     Get expense input from user.
-    Convert the amounnt input to a float.
+    Convert the amount input to a float.
     Offer selected categories to choose from.
     """
     while True:
@@ -163,7 +163,8 @@ def update_file(expense):
     """
     Update the google sheet with the data provided by the user.
     """
-    print(f"Saving User Expense: {expense}")
+    print("Saving User Expense...")
+    print(f"{expense}")
 
     # Extract expense attributes
     expense_date = expense.date
@@ -193,7 +194,7 @@ def view_expenses():
     print("3. Today's expenses")
     print("4. Expenses by category")
     print("5. Go back to the main menu")
-    choice = input("Enter your choice: ")
+    choice = input("Enter your choice: \n")
     expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
     if choice == "1":
         try:
@@ -288,7 +289,7 @@ def calculate_total_expenses():
     print("1. Total expenses for all records")
     print("2. Total expenses for a specific category")
     print("3. Total expenses within a date range")
-    option = input("Enter your choice: ")
+    option = input("Enter your choice: \n")
 
     if option == "1":
         total_expenses = sum(expense['Amount'] for expense in expense_records)
@@ -299,14 +300,14 @@ def calculate_total_expenses():
         )
     elif option == "3":
         while True:
-            start_date = input("Enter the start date (DD/MM/YYYY): ")
+            start_date = input("Enter the start date (DD/MM/YYYY): \n")
             if not is_valid_date(start_date):
                 print(f"Invalid date: {start_date}."
                       "Please enter the date as DD/MM/YYYY.")
             else:
                 break
         while True:
-            end_date = input("Enter the end date (DD/MM/YYYY): ")
+            end_date = input("Enter the end date (DD/MM/YYYY): \n")
             if not is_valid_date(end_date):
                 print(f"Invalid date: {end_date}."
                       "Please enter the date as DD/MM/YYYY.")
@@ -350,7 +351,7 @@ def set_budget(month, amount):
     """
     while not is_valid_month(month):
         month = input("Invalid month format."
-                      "Please enter the month (MM: 01, 02, ...): ")
+                      "Please enter the month (MM: 01, 02, ...): \n")
     budget_sheet = SHEET.worksheet("budget")
     budget_sheet.append_row([month, amount])
     print(f"You have set a budget of €{amount} "
@@ -365,7 +366,7 @@ def calculate_savings(month):
     """
     while not is_valid_month(month):
         month = input("Invalid month format."
-                      "Please enter the month (MM: 01, 02, ...): ")
+                      "Please enter the month (MM: 01, 02, ...): \n")
 
     # Ensure month is zero-padded (e.g., '07' instead of '7')
     month = month.zfill(2)
@@ -398,7 +399,7 @@ def calculate_savings(month):
     else:
         spent_over_budget = abs(unspent_amount)
         print(f"You spent €{spent_over_budget} over the budget. "
-              f"There are no savings for " 
+              f"There are no savings for "
               f"the month of {calendar.month_name[int(month)]}."
               )
 
