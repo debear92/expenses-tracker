@@ -1,4 +1,5 @@
 import datetime
+import calendar
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -369,7 +370,7 @@ def set_budget(month, amount):
                       "Please enter the month (MM: 01, 02, ...): ")
     budget_sheet = SHEET.worksheet("budget")
     budget_sheet.append_row([month, amount])
-    print(f"You have set a budget of €{amount} for the month of {month}.")
+    print(f"You have set a budget of €{amount} for the month of {calendar.month_name[int(month)]}.")
     print("Budget sheet updated succesfully.")
 
 
@@ -407,12 +408,12 @@ def calculate_savings(month):
 
     if unspent_amount > 0:
         savings_sheet.append_row([month, unspent_amount])
-        print(f"Your savings for the month of {month} are €{unspent_amount}")
+        print(f"Your savings for the month of {calendar.month_name[int(month)]} are €{unspent_amount}")
         print("Saving sheet updated")
     else:
         spent_over_budget = abs(unspent_amount)
         print(f"You spent €{spent_over_budget} over the budget."
-              f"There are no savings for the month of {month}."
+              f"There are no savings for the month of {calendar.month_name[int(month)]}."
               )
 
 
