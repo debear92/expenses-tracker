@@ -393,21 +393,27 @@ def calculate_savings(month):
     budget_amount = sum(
         record["Amount"]
         for record in budget_records
-        if record["Month"] == month
+        if str(record["Month"]).zfill(2) == month
     )
+
     expense_amount = sum(
         record["Amount"]
         for record in expense_records
         if datetime.datetime.strptime(
             record["Date"], "%d/%m/%Y").strftime("%m") == month
     )
+
     unspent_amount = budget_amount - expense_amount
+
     if unspent_amount > 0:
         savings_sheet.append_row([month, unspent_amount])
         print(f"Your savings for the month of {month} are €{unspent_amount}")
         print("Saving sheet updated")
     else:
-        print("No saving for the given month.")
+        spent_over_budget = abs(unspent_amount)
+        print(f"You spent €{spent_over_budget} over the budget."
+              f"There are no savings for the month of {month}."
+              )
 
 
 if __name__ == "__main__":
