@@ -51,7 +51,8 @@ def manage_menus():
         print("1. Add a new expense.")
         print("2. View expenses")
         print("3. Calculate total expenses")
-        print("4. Exit")
+        print("4. Set budget")
+        print("5. Exit")
 
         option = input("Enter your choice: ")
         if option == "1":
@@ -62,6 +63,10 @@ def manage_menus():
         elif option == "3":
             calculate_total_expenses()
         elif option == "4":
+            category = input("Enter the category you budgetting for:")
+            amount = float(input("Enter the budget amount: "))
+            set_budget(category, amount)
+        elif option == "5":
             print("Thank you for using the Ultimate Expense Tracker! \n"
                   "Have a nice day!")
             exit()
@@ -335,13 +340,14 @@ def format_currency(amount):
     return "€{:.2f}".format(amount)
 
 
-def update_budget(category, amount):
+def set_budget(category, amount):
     """
     Allow users to set a specific budget for a certain category.
     """
     budget_sheet = SHEET.worksheet("budget")
     budget_sheet.append_row([category, amount])
     print("Budget updated succesfully.")
+
 
 if __name__ == "__main__":
     print("Welcome to the Ultimate Expense Tracker!")
