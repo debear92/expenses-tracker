@@ -68,7 +68,7 @@ def manage_menus():
                           "Enter the month (MMM: eg. Jan, Feb): "
                         )
             amount = float(input("Enter the budget amount: "))
-            set_budget(month, category, amount)
+            set_budget(month, amount)
         elif option == "5":
             month = input(
                           "Enter the month (MMM: eg. Jan, Feb): "
@@ -368,7 +368,7 @@ def set_budget(month, amount):
         month = input("Invalid month format."
                       "Please enter the month (MMM: Jan, Feb...): ")
     budget_sheet = SHEET.worksheet("budget")
-    budget_sheet.append_row([month,amount])
+    budget_sheet.append_row([month, amount])
     print("Budget updated succesfully.")
 
 
@@ -386,24 +386,24 @@ def calculate_savings(month):
     budget_records = budget_sheet.get_all_records()
     expense_records = expenses_sheet.get_all_records()
 
-    for category in set(record["Category"] for record in budget_records):
-        budget_amount = sum(
-            record["Amount"]
-            for record in budget_records
-            if record["Month"] == month and record["Category"] == category
-        )
-        expense_amount = sum(
-            record["Amount"]
-            for record in expense_records
-            if record["Category"] == category
-            and datetime.datetime.strptime(
-                record["Date"], "%d/%m/%Y"
-            ).strftime("%B") == month
-        )
-        unspent_amount = budget_amount - expense_amount
-        if unspent_amount > 0:
-            savings_sheet.append_row([month, category, unspent_amount])
-    print("Savings calculated and moved to the savings sheet")
+    budget_amount = sum(
+        record["Amount"]
+        for record in budget_records
+        if record["Month"] == month
+    )
+    expense_amount = sum(
+        record["Amount"]
+        for record in expense_records
+        if datetime.datetime.strptime(
+            record["Date"], "%d/%m/%Y"
+        ).strftime("%B") == month
+    )
+    unspent_amount = budget_amount - expense_amount
+    if unspent_amount > 0:
+        savings_sheet.append_row([month, unspent_amount])
+        print("Savings calculated and updated savings sheet")
+    else:
+        print("No saving for the given month.")
 
 
 if __name__ == "__main__":
