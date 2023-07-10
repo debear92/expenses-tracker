@@ -335,6 +335,14 @@ def format_currency(amount):
     return "€{:.2f}".format(amount)
 
 
+def update_budget(category, amount):
+    """
+    Allow users to set a specific budget for a certain category.
+    """
+    budget_sheet = SHEET.worksheet("budget")
+    budget_sheet.append_row([category, amount])
+    print("Budget updated succesfully.")
+
 if __name__ == "__main__":
     print("Welcome to the Ultimate Expense Tracker!")
     manage_menus()
