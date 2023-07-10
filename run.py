@@ -64,12 +64,15 @@ def manage_menus():
         elif option == "3":
             calculate_total_expenses()
         elif option == "4":
-            month = input("Enter the month for the budget: ")
-            category = input("Enter the category you budgetting for:")
+            month = input(
+                          "Enter the month (MMM: eg. Jan, Feb): "
+                        )
             amount = float(input("Enter the budget amount: "))
             set_budget(month, category, amount)
         elif option == "5":
-            month = input("Enter the month to calculate savings: ")
+            month = input(
+                          "Enter the month (MMM: eg. Jan, Feb): "
+                        )
             calculate_savings(month)
         elif option == "6":
             print("Thank you for using the Ultimate Expense Tracker! \n"
@@ -140,6 +143,18 @@ def is_valid_date(date_string):
     """
     try:
         datetime.datetime.strptime(date_string, "%d/%m/%Y")
+        return True
+    except ValueError:
+        return False
+
+
+def is_valid_month(month):
+    """
+    Check if the month string provided is valid and in the format MMM.
+    Eg. Jan, Feb, Mar...
+    """
+    try:
+        datetime.datetime.strptime(month, "%b")
         return True
     except ValueError:
         return False
@@ -345,13 +360,15 @@ def format_currency(amount):
     return "€{:.2f}".format(amount)
 
 
-def set_budget(month, category, amount):
+def set_budget(month, amount):
     """
-    Allow users to set a specific budget for a certain category 
-    in a specific month.
+    Allow users to set a specific budget in a specific month.
     """
+    while not is_valid_month(month):
+        month = input("Invalid month format."
+                      "Please enter the month (MMM: Jan, Feb...): ")
     budget_sheet = SHEET.worksheet("budget")
-    budget_sheet.append_row([month, category, amount])
+    budget_sheet.append_row([month,amount])
     print("Budget updated succesfully.")
 
 
@@ -360,6 +377,9 @@ def calculate_savings(month):
     Calculate the unspent amount for a specific month
     and moving to the saving sheet.
     """
+    while not is_valid_month(month):
+        month = input("Invalid month format."
+                      "Please enter the month (MMM: Jan, Feb...): ")
     budget_sheet = SHEET.worksheet("budget")
     expenses_sheet = SHEET.worksheet("expenses_tracker")
     savings_sheet = SHEET.worksheet("savings")
