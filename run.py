@@ -89,7 +89,7 @@ def select_category():
         for i, category_name in enumerate(EXPENSE_CATEGORIES):
             print(f"  {i + 1}.  {category_name}")
         category_options = f"[1 - {len(EXPENSE_CATEGORIES)}]"
-        chosen_index = input(f"Enter a category number {category_options}:")
+        chosen_index = input(f"Enter a category number {category_options}: ")
         try:
             chosen_index = int(chosen_index)
             if chosen_index in range(1, len(EXPENSE_CATEGORIES) + 1):
@@ -302,14 +302,14 @@ def calculate_total_expenses():
         while True:
             start_date = input("Enter the start date (DD/MM/YYYY): \n")
             if not is_valid_date(start_date):
-                print(f"Invalid date: {start_date}."
+                print(f"Invalid date: {start_date}. "
                       "Please enter the date as DD/MM/YYYY.")
             else:
                 break
         while True:
             end_date = input("Enter the end date (DD/MM/YYYY): \n")
             if not is_valid_date(end_date):
-                print(f"Invalid date: {end_date}."
+                print(f"Invalid date: {end_date}. "
                       "Please enter the date as DD/MM/YYYY.")
             else:
                 break
@@ -365,7 +365,7 @@ def calculate_savings(month):
     and moving to the saving sheet.
     """
     while not is_valid_month(month):
-        month = input("Invalid month format."
+        month = input("Invalid month format. "
                       "Please enter the month (MM: 01, 02, ...): \n")
 
     # Ensure month is zero-padded (e.g., '07' instead of '7')
