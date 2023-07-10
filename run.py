@@ -63,9 +63,10 @@ def manage_menus():
         elif option == "3":
             calculate_total_expenses()
         elif option == "4":
+            month = input("Enter the month for the budget: ")
             category = input("Enter the category you budgetting for:")
             amount = float(input("Enter the budget amount: "))
-            set_budget(category, amount)
+            set_budget(month, category, amount)
         elif option == "5":
             print("Thank you for using the Ultimate Expense Tracker! \n"
                   "Have a nice day!")
@@ -340,13 +341,45 @@ def format_currency(amount):
     return "€{:.2f}".format(amount)
 
 
-def set_budget(category, amount):
+def set_budget(month, category, amount):
     """
-    Allow users to set a specific budget for a certain category.
+    Allow users to set a specific budget for a certain category 
+    in a specific month.
     """
     budget_sheet = SHEET.worksheet("budget")
-    budget_sheet.append_row([category, amount])
+    budget_sheet.append_row([month, category, amount])
     print("Budget updated succesfully.")
+
+
+def calculate_savings(month):
+    """"
+    Calculate the unspent amount for a specific month
+    and moving to the saving sheet.
+    """
+    budget_sheet = SHEET.worksheet("budget")
+    expenses_sheet = SHEET.worksheet("expenses_tracker")
+    savings_sheet = SHEET.worksheet("savings")
+    budget_records = budget_sheet.get_all_records()
+    expense_records = expenses_sheet.get_all_records()
+
+    for category in set(record["Category"] for record in budget_records):
+        budget_amount = sum(
+            record["Amount"]
+            for record in budget_records
+            if record["Month"] == month and record["Category"] == category
+        )
+        expense_amount = sum(
+            record["Amount"]
+            for record in expense_records
+            if record["Category"] == category
+            and datetime.datetime.strptime(
+                record["Date"], "%d/%m/%Y"
+            ).strftime("%B") == month
+        )
+        unspent_amount = budget_amount - expense_amount
+        if unspent_amount > 0:
+            savings_sheet.append_row([month, category, unspent_amount])
+    print("Savings calculated and moved to the savings sheet")
 
 
 if __name__ == "__main__":
