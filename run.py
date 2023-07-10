@@ -14,11 +14,11 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('expenses_tracker')
 EXPENSE_CATEGORIES = [
-        "🍕 Food",
-        "🏠 Home",
-        "💼 Work",
-        "💊 Health",
-        "🎈 Misc"
+    "🍕 Food",
+    "🏠 Home",
+    "💼 Work",
+    "💊 Health",
+    "🎈 Misc"
 ]
 
 
@@ -66,14 +66,14 @@ def manage_menus():
             calculate_total_expenses()
         elif option == "4":
             month = input(
-                          "Enter the month (MM: 01, 02, ...): "
-                        )
+                "Enter the month (MM: 01, 02, ...): "
+            )
             amount = float(input("Enter the budget amount: "))
             set_budget(month, amount)
         elif option == "5":
             month = input(
-                          "Enter the month (MM: 01, 02, ...): "
-                        )
+                "Enter the month (MM: 01, 02, ...): "
+            )
             calculate_savings(month)
         elif option == "6":
             print("Thank you for using the Ultimate Expense Tracker! \n"
@@ -81,6 +81,24 @@ def manage_menus():
             exit()
         else:
             print("Invalid option. Please try again.")
+
+
+def select_category():
+    while True:
+        print("Select a category: ")
+        for i, category_name in enumerate(EXPENSE_CATEGORIES):
+            print(f"  {i + 1}.  {category_name}")
+        category_options = f"[1 - {len(EXPENSE_CATEGORIES)}]"
+        chosen_index = input(f"Enter a category number {category_options}:")
+        try:
+            chosen_index = int(chosen_index)
+            if chosen_index in range(1, len(EXPENSE_CATEGORIES) + 1):
+                selected_category = EXPENSE_CATEGORIES[chosen_index - 1]
+                return selected_category
+            else:
+                print("Invalid category. Please try again!")
+        except ValueError:
+            print("Invalid input. Please enter a numeric value.")
 
 
 def get_expense():
@@ -110,32 +128,12 @@ def get_expense():
                 print("Invalid amount. Please enter a positive number.")
         except ValueError:
             print("Invalid amount. Please enter a numeric value.")
-    while True:
-        print("Select a category: ")
-        for i, category_name in enumerate(EXPENSE_CATEGORIES):
-            print(f"  {i + 1}.  {category_name}")
-        category_options = f"[1 - {len(EXPENSE_CATEGORIES)}]"
-        chosen_index = input(f"Enter a category number {category_options}:")
-        try:
-            chosen_index = int(chosen_index)
-            if chosen_index in range(1, len(EXPENSE_CATEGORIES) + 1):
-                selected_category = EXPENSE_CATEGORIES[chosen_index - 1]
-                new_expense = Expense(
-                    expense_date, expense_name,
-                    expense_amount, selected_category)
 
-                return new_expense
-
-            else:
-                print("Invalid category. Please try again!")
-        except ValueError:
-            print(f"{EXPENSE_CATEGORIES} is invalid."
-                  "Please enter a numeric value.")
-        except IndexError:
-            print("Invalid category number."
-                  "Please enter a valid category number.")
-
-    return None
+    selected_category = select_category()
+    new_expense = Expense(
+                          expense_date, expense_name,
+                          expense_amount, selected_category)
+    return new_expense
 
 
 def is_valid_date(date_string):
@@ -263,31 +261,16 @@ def get_expense_by_category():
     """
     Get the expenses for a specific category.
     """
-    while True:
-        print("Select a category: ")
-        for i, category_name in enumerate(EXPENSE_CATEGORIES):
-            print(f"  {i + 1}.  {category_name}")
-        category_options = f"[1 - {len(EXPENSE_CATEGORIES)}]"
-        chosen_index = input(f"Enter a category number {category_options}:")
-        try:
-            chosen_index = int(chosen_index)
-            if chosen_index in range(1, len(EXPENSE_CATEGORIES) + 1):
-                selected_category = EXPENSE_CATEGORIES[chosen_index - 1]
-                expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
-                expenses = expense_tracker_sheet.get_all_records()
-                expense_records = [
+    selected_category = select_category()
+    expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
+    expenses = expense_tracker_sheet.get_all_records()
+    expense_records = [
                     expense
                     for expense in expenses
                     if expense['Category'] == selected_category
                 ]
-                return expense_records
-            else:
-                print("Invalid category number. Please try again!")
-        except ValueError:
-            print(f"{EXPENSE_CATEGORIES} is invalid."
-                  "Please enter a numeric value.")
-    return []
-
+    return expense_records
+            
 
 def calculate_total_expenses():
     """
@@ -370,7 +353,8 @@ def set_budget(month, amount):
                       "Please enter the month (MM: 01, 02, ...): ")
     budget_sheet = SHEET.worksheet("budget")
     budget_sheet.append_row([month, amount])
-    print(f"You have set a budget of €{amount} for the month of {calendar.month_name[int(month)]}.")
+    print(f"You have set a budget of €{amount} "
+          f"for the month of {calendar.month_name[int(month)]}.")
     print("Budget sheet updated succesfully.")
 
 
@@ -382,7 +366,7 @@ def calculate_savings(month):
     while not is_valid_month(month):
         month = input("Invalid month format."
                       "Please enter the month (MM: 01, 02, ...): ")
-    
+
     # Ensure month is zero-padded (e.g., '07' instead of '7')
     month = month.zfill(2)
     budget_sheet = SHEET.worksheet("budget")
@@ -408,12 +392,14 @@ def calculate_savings(month):
 
     if unspent_amount > 0:
         savings_sheet.append_row([month, unspent_amount])
-        print(f"Your savings for the month of {calendar.month_name[int(month)]} are €{unspent_amount}")
+        print("Your savings for the month of " +
+              f"{calendar.month_name[int(month)]} are €{unspent_amount}")
         print("Saving sheet updated")
     else:
         spent_over_budget = abs(unspent_amount)
-        print(f"You spent €{spent_over_budget} over the budget."
-              f"There are no savings for the month of {calendar.month_name[int(month)]}."
+        print(f"You spent €{spent_over_budget} over the budget. "
+              f"There are no savings for " 
+              f"the month of {calendar.month_name[int(month)]}."
               )
 
 
