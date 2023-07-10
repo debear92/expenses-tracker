@@ -56,7 +56,7 @@ def manage_menus():
         print("5. Calculate savings")
         print("6. Exit")
 
-        option = input("Enter your choice: \n")
+        option = input("Enter your choice:\n")
         if option == "1":
             expense = get_expense()
             update_file(expense)
@@ -66,13 +66,13 @@ def manage_menus():
             calculate_total_expenses()
         elif option == "4":
             month = input(
-                "Enter the month (MM: 01, 02, ...): \n"
+                "Enter the month (MM: 01, 02, ...):\n"
             )
-            amount = float(input("Enter the budget amount: \n"))
+            amount = float(input("Enter the budget amount:\n"))
             set_budget(month, amount)
         elif option == "5":
             month = input(
-                "Enter the month (MM: 01, 02, ...): \n"
+                "Enter the month (MM: 01, 02, ...):\n"
             )
             calculate_savings(month)
         elif option == "6":
@@ -89,7 +89,7 @@ def select_category():
         for i, category_name in enumerate(EXPENSE_CATEGORIES):
             print(f"  {i + 1}.  {category_name}")
         category_options = f"[1 - {len(EXPENSE_CATEGORIES)}]"
-        chosen_index = input(f"Enter a category number {category_options}: ")
+        chosen_index = input(f"Enter a category number {category_options}:\n")
         try:
             chosen_index = int(chosen_index)
             if chosen_index in range(1, len(EXPENSE_CATEGORIES) + 1):
@@ -108,16 +108,16 @@ def get_expense():
     Offer selected categories to choose from.
     """
     while True:
-        expense_date = input("Please enter your expense date (DD/MM/YYYY): \n")
+        expense_date = input("Please enter your expense date (DD/MM/YYYY):\n")
         if is_valid_date(expense_date):
             break
         else:
             print("Invalid date format. Please enter the date as DD/MM/YYYY.")
 
-    expense_name = input("Please, enter your expense name: \n")
+    expense_name = input("Please, enter your expense name:\n")
 
     while True:
-        expense_amount = input("Please, enter your expense amount: \n")
+        expense_amount = input("Please, enter your expense amount:\n")
         try:
             # Validate expense amount.
             # Check if input is a number and if the number is positive.
@@ -194,7 +194,7 @@ def view_expenses():
     print("3. Today's expenses")
     print("4. Expenses by category")
     print("5. Go back to the main menu")
-    choice = input("Enter your choice: \n")
+    choice = input("Enter your choice:\n")
     expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
     if choice == "1":
         try:
@@ -289,7 +289,7 @@ def calculate_total_expenses():
     print("1. Total expenses for all records")
     print("2. Total expenses for a specific category")
     print("3. Total expenses within a date range")
-    option = input("Enter your choice: \n")
+    option = input("Enter your choice:\n")
 
     if option == "1":
         total_expenses = sum(expense['Amount'] for expense in expense_records)
@@ -300,14 +300,14 @@ def calculate_total_expenses():
         )
     elif option == "3":
         while True:
-            start_date = input("Enter the start date (DD/MM/YYYY): \n")
+            start_date = input("Enter the start date (DD/MM/YYYY):\n")
             if not is_valid_date(start_date):
                 print(f"Invalid date: {start_date}. "
                       "Please enter the date as DD/MM/YYYY.")
             else:
                 break
         while True:
-            end_date = input("Enter the end date (DD/MM/YYYY): \n")
+            end_date = input("Enter the end date (DD/MM/YYYY):\n")
             if not is_valid_date(end_date):
                 print(f"Invalid date: {end_date}. "
                       "Please enter the date as DD/MM/YYYY.")
@@ -351,7 +351,7 @@ def set_budget(month, amount):
     """
     while not is_valid_month(month):
         month = input("Invalid month format."
-                      "Please enter the month (MM: 01, 02, ...): \n")
+                      "Please enter the month (MM: 01, 02, ...):\n")
     budget_sheet = SHEET.worksheet("budget")
     budget_sheet.append_row([month, amount])
     print(f"You have set a budget of €{amount} "
@@ -366,7 +366,7 @@ def calculate_savings(month):
     """
     while not is_valid_month(month):
         month = input("Invalid month format. "
-                      "Please enter the month (MM: 01, 02, ...): \n")
+                      "Please enter the month (MM: 01, 02, ...):\n")
 
     # Ensure month is zero-padded (e.g., '07' instead of '7')
     month = month.zfill(2)
