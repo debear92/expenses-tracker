@@ -52,7 +52,8 @@ def manage_menus():
         print("2. View expenses")
         print("3. Calculate total expenses")
         print("4. Set budget")
-        print("5. Exit")
+        print("5. Calculate savings")
+        print("6. Exit")
 
         option = input("Enter your choice: ")
         if option == "1":
@@ -68,6 +69,9 @@ def manage_menus():
             amount = float(input("Enter the budget amount: "))
             set_budget(month, category, amount)
         elif option == "5":
+            month = input("Enter the month to calculate savings: ")
+            calculate_savings(month)
+        elif option == "6":
             print("Thank you for using the Ultimate Expense Tracker! \n"
                   "Have a nice day!")
             exit()
