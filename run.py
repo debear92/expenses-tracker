@@ -65,13 +65,13 @@ def manage_menus():
             calculate_total_expenses()
         elif option == "4":
             month = input(
-                          "Enter the month (MMM: eg. Jan, Feb): "
+                          "Enter the month (MM: 01, 02, ...): "
                         )
             amount = float(input("Enter the budget amount: "))
             set_budget(month, amount)
         elif option == "5":
             month = input(
-                          "Enter the month (MMM: eg. Jan, Feb): "
+                          "Enter the month (MM: 01, 02, ...): "
                         )
             calculate_savings(month)
         elif option == "6":
@@ -154,7 +154,7 @@ def is_valid_month(month):
     Eg. Jan, Feb, Mar...
     """
     try:
-        datetime.datetime.strptime(month, "%b")
+        datetime.datetime.strptime(month, "%m")
         return True
     except ValueError:
         return False
@@ -366,10 +366,11 @@ def set_budget(month, amount):
     """
     while not is_valid_month(month):
         month = input("Invalid month format."
-                      "Please enter the month (MMM: Jan, Feb...): ")
+                      "Please enter the month (MM: 01, 02, ...): ")
     budget_sheet = SHEET.worksheet("budget")
     budget_sheet.append_row([month, amount])
-    print("Budget updated succesfully.")
+    print(f"You have set a budget of €{amount} for the month of {month}.")
+    print("Budget sheet updated succesfully.")
 
 
 def calculate_savings(month):
@@ -379,7 +380,10 @@ def calculate_savings(month):
     """
     while not is_valid_month(month):
         month = input("Invalid month format."
-                      "Please enter the month (MMM: Jan, Feb...): ")
+                      "Please enter the month (MM: 01, 02, ...): ")
+    
+    # Ensure month is zero-padded (e.g., '07' instead of '7')
+    month = month.zfill(2)
     budget_sheet = SHEET.worksheet("budget")
     expenses_sheet = SHEET.worksheet("expenses_tracker")
     savings_sheet = SHEET.worksheet("savings")
@@ -395,17 +399,16 @@ def calculate_savings(month):
         record["Amount"]
         for record in expense_records
         if datetime.datetime.strptime(
-            record["Date"], "%d/%m/%Y"
-        ).strftime("%B") == month
+            record["Date"], "%d/%m/%Y").strftime("%m") == month
     )
     unspent_amount = budget_amount - expense_amount
     if unspent_amount > 0:
         savings_sheet.append_row([month, unspent_amount])
-        print("Savings calculated and updated savings sheet")
+        print(f"Your savings for the month of {month} are €{unspent_amount}")
+        print("Saving sheet updated")
     else:
         print("No saving for the given month.")
 
 
 if __name__ == "__main__":
-    print("Welcome to the Ultimate Expense Tracker!")
     manage_menus()
