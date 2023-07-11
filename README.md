@@ -1,6 +1,6 @@
 # Ultimate Expenses Tracker
 
-Ultimate Expenses Tracker is a Python command line application designed to allow users to track their expenses and then reviewing them either by date or category. Users can also setup a budget for the month and at the end of the month calculate their savings.
+Ultimate Expenses Tracker is a Python command line application designed to help individuals track their expenses and manage their finances effectively. The application allows users to record their expenses, view expense details, calculate total expenses, set budgets, calculate savings, and more.
 
 [View the live project here](https://ultimate-expenses-tracker-6b936149548d.herokuapp.com/)
 
@@ -23,9 +23,18 @@ Ultimate Expenses Tracker is a Python command line application designed to allow
 
 # Project Background
 
-The Ultimate Expense Tracker is a command-line application designed to help users track their expenses efficiently. It provides a simple and intuitive interface for users to log their expenses, view past expenses, calculate total expenses, set budgets, and calculate savings. With the Ultimate Expense Tracker, users can gain better insights into their spending habits, manage their finances, and work towards their financial goals.
+Managing personal finances and keeping track of expenses are essential for maintaining financial health and achieving financial goals. The Ultimate Expense Tracker provides a user-friendly interface for individuals to easily record and analyze their expenses, empowering them to make informed financial decisions.
 
-The project utilizes the Google Sheets API for storing and retrieving expense data, allowing users to access their expenses from anywhere with an internet connection. The application also provides various features to enhance the user experience, such as validating user input, offering predefined expense categories for easy categorization, and generating reports for specific timeframes or expense categories.
+The project leverages Python and Google Sheets integration to store and manage expense data. By utilizing the gspread library, the application interacts with Google Sheets to store expense records securely in the cloud. This approach provides flexibility and accessibility, enabling users to access their expense data from multiple devices and collaborate with others if needed.
+
+The Ultimate Expense Tracker offers features such as:
+
+Adding new expenses: Users can enter expense details, including the date, name, amount, and category, using a user-friendly interface.
+Viewing expenses: Users can view their expenses either for a specific time period, category, or all records, helping them gain insights into their spending patterns.
+Calculating total expenses: The application allows users to calculate the total expenses for a given time period or specific expense category, enabling them to monitor their spending and stay within budget.
+Setting budgets: Users can set monthly budgets for different categories, helping them track their spending against the predefined limits.
+Calculating savings: The application helps users calculate their savings by analyzing their expenses and budgets, providing valuable insights into their financial progress.
+The Ultimate Expense Tracker is a flexible and customizable solution that can be extended to meet specific requirements. It provides a solid foundation for individuals to track and manage their expenses efficiently, ultimately leading to improved financial management and better control over personal finances.
 
 # Features
 
