@@ -131,8 +131,8 @@ def get_expense():
 
     selected_category = select_category()
     new_expense = Expense(
-                          expense_date, expense_name,
-                          expense_amount, selected_category)
+        expense_date, expense_name,
+        expense_amount, selected_category)
     return new_expense
 
 
@@ -197,10 +197,7 @@ def view_expenses():
     choice = input("Enter your choice:\n")
     expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
     if choice == "1":
-        try:
-            expense_records = expense_tracker_sheet.get_all_records()
-        except gspread.exceptions.APIError:
-            print("Error accessing expense records. Please try again later.")
+        expense_records = expense_tracker_sheet.get_all_records()
     elif choice == "2":
         expense_records = get_expenses_for_current_month(expense_tracker_sheet)
     elif choice == "3":
@@ -266,12 +263,12 @@ def get_expense_by_category():
     expense_tracker_sheet = SHEET.worksheet("expenses_tracker")
     expenses = expense_tracker_sheet.get_all_records()
     expense_records = [
-                    expense
-                    for expense in expenses
-                    if expense['Category'] == selected_category
-                ]
+        expense
+        for expense in expenses
+        if expense['Category'] == selected_category
+    ]
     return expense_records
-            
+
 
 def calculate_total_expenses():
     """
