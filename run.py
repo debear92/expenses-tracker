@@ -105,10 +105,10 @@ def get_help():
     print("1. Add a new expense: "
           "Select date, name, amount, category of your expense.")
     print("2. View expenses: "
-          "Review all your expenses recorder or filter them "
-          "either by category or date range.")
+          "Review all the expenses recorded or filter them "
+          "either by category current day or current month.")
     print("3. Calculate total expenses: "
-          "Check how much is your total spending for the month "
+          "Check how much is your total spending for a specific date range "
           "or for a certain category.")
     print("4. Set budget: "
           "Insert your spending goals for the month and challenge yourself.")
