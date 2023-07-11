@@ -128,8 +128,20 @@ No issues were dected when passing the code with the CI Python Linter
 # Bugs/Issues
 
 ## Fixed
+
+- When calculating the savings I first encountered some issues in reading the expenses for the same month as the dates were inputted in a different format. For example, in the expenses_tracker the dates are set at DD-MM-YYYY while on the budget sheet I only have the month as MM. I was able to fix this, by using this piece of code  and the zfill() method. 
+
+```
+budget_amount = sum(
+        record["Amount"]
+        for record in budget_records
+        if str(record["Month"]).zfill(2) == month
+    )
+```
+
 ## Unfixed
 
+- When setting up a budget, at the moment the user can setup multiple budgets for the same month and on the Google Sheet this creates a new entry each time. Instead of having one line for whole the budget for July, I have multiple entries for the budget of that same month. I wasn't able to get the function to delete all rows with the same month, but just the first one if there were more than one. The exact same issue happens with the Savings sheet.
 
 # Deployment
 
