@@ -154,7 +154,7 @@ def get_expense():
             # Validate expense amount.
             # Check if input is a number and if the number is positive.
             expense_amount = float(expense_amount)
-            if expense_amount > 0:
+            if expense_amount > 0 and expense_amount <= 1_000_000:
                 break
             else:
                 print("Invalid amount. Please enter a positive number.")
