@@ -49,6 +49,7 @@ def manage_menus():
 
     while True:
         print("What do you want to do today?")
+        print("0. Instructions")
         print("1. Add a new expense.")
         print("2. View expenses")
         print("3. Calculate total expenses")
@@ -57,6 +58,8 @@ def manage_menus():
         print("6. Exit")
 
         option = input("Enter your choice:\n")
+        if option == "0":
+            get_help()
         if option == "1":
             expense = get_expense()
             update_file(expense)
@@ -84,6 +87,29 @@ def manage_menus():
             exit()
         else:
             print("Invalid option. Please try again.")
+
+
+def get_help():
+    """
+    Print instructions for optimal app usage.
+    """
+    print("1. Add a new expense: "
+          "Select date, name, amount, category of your expense.")
+    print("2. View expenses: "
+          "Review all your expenses recorder or filter them "
+          "either by category or date range.")
+    print("3. Calculate total expenses: "
+          "Check how much is your total spending for the month "
+          "or for a certain category.")
+    print("4. Set budget: "
+          "Insert your spending goals for the month and challenge yourself.")
+    print("5. Calculate savings: "
+          "Check your leftover budget, compare your total spending "
+          "for the month with the budget set.")
+    option = input("Enter 6 if you wish to back to main menu:\n")
+    if option == "6":
+        manage_menus()
+        return
 
 
 def select_category():
