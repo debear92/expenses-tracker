@@ -43,14 +43,21 @@ The Ultimate Expense Tracker is a flexible and customizable solution that can be
 ![Menu image](readme/menu.PNG)
 
 The application starts with a menu where the user is presented with different options:
-1. Add a new expense.
+0. Instructions
+1. Add a new expense
 2. View expenses
 3. Calculate total expenses
 4. Set budget
-5. Calculate savings
+5. Calculate savings left from budget
 6. Exit
 
 The menu is easy to use and each option explains to the user exactly what the application is offering.
+
+## Intructions
+
+![Help](readme/help.PNG)
+
+Provide users with instructions on what can be achieved with every options of the menu. 
 
 ## Add a new expense
 
@@ -78,7 +85,7 @@ According to the option chosen, the user will be prompted to either enter a cate
 
 In this part of the application the user can set a budget for a certain month. 
 
-## Calculate savings
+## Calculate savings left from budget
 
 ![Calculate savings](readme/calculate-savings.PNG)
 
