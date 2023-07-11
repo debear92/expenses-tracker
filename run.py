@@ -54,7 +54,7 @@ def manage_menus():
         print("2. View expenses")
         print("3. Calculate total expenses")
         print("4. Set budget")
-        print("5. Calculate savings")
+        print("5. Calculate savings left from budget")
         print("6. Exit")
 
         option = input("Enter your choice:\n")
@@ -112,7 +112,7 @@ def get_help():
           "or for a certain category.")
     print("4. Set budget: "
           "Insert your spending goals for the month and challenge yourself.")
-    print("5. Calculate savings: "
+    print("5. Calculate savings left from budget: "
           "Check your leftover budget, compare your total spending "
           "for the month with the budget set.")
     option = input("Enter 6 if you wish to back to main menu:\n")
