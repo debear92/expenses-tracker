@@ -56,7 +56,7 @@ The menu is easy to use and each option explains to the user exactly what the ap
 
 ![Add a new Expense](readme/add-expense.PNG)
 
-When selecting the add expense option the user is prompted to enter the date, the name, amount and category for the expense that he wishes to add. Once the expense is saved into the Google Sheet the user will get a message with a recap of the details of the expense that was just entered and a confirmation message of the succesfull saving of the new expense.
+When selecting the add expense option the user is prompted to enter the date, the name, amount and category for the expense that he wishes to add. Once the expense is saved into the Google Sheet the user will get a message with a recap of the details of the expense that was just entered and a confirmation message of the succesful saving of the new expense.
 At this point the user is presented again with the main menu.
 
 ## View expenses
@@ -103,7 +103,7 @@ The user can review the savings for a certain month or if he wasn't able to stic
   |Action | Expected behavious | Result|
   |-------|--------------------|-------|
   | Open the link in the browser | The mock terminal open with the main menu | Pass |
-  | Enter 1: Add a new expense | Ther terminal asks input from the user to add a new expense | Pass |
+  | Enter 1: Add a new expense | The terminal asks input from the user to add a new expense | Pass |
   | Save the new expense |  The new expenses added are correctly saved on Google Sheet | Pass |
   | Enter 2: View expenses | The user is presented with an additional menu asking what expenses they would like to view | Pass |
   | Check this month expenses | Only the current month expenses are shown | Pass |
@@ -113,7 +113,7 @@ The user can review the savings for a certain month or if he wasn't able to stic
   | Get total expenses by category | Only expenses for the selected category are added | Pass |
   | Get total expenses by date range | Only expenses for the selected timeframe are added togheter | Pass |
   | Enter 4: Set a budget | User is prompted to enter month and amount, and the data get saved on Google Sheet | Pass |
-  | Enter 5: Calculate Savings | After inputting the month, the user is present with the savings for the choosen month according to a previously setted budget. The savings amount is saved on Google Sheet. | Pass |
+  | Enter 5: Calculate Savings | After inputting the month, the user is present with the savings for the chosen month according to a previously setted budget. The savings amount is saved on Google Sheet. | Pass |
   | Enter 6: Exit | The user is presented with the goodbye message and the application stops running. | Pass |
   | Input incorrect date format or something that is not a number | User gets an error message and is prompted to enter the information again | Pass |
   | Input incorrect option for category | User gets an error message and is prompted to enter the information again | Pass |
@@ -123,13 +123,13 @@ The user can review the savings for a certain month or if he wasn't able to stic
 
 ![CI Python Linter](readme/ci-python-linter.PNG)
 
-No issues were dected when passing the code with the CI Python Linter
+No issues were dected when passing the code through the CI Python Linter
 
 # Bugs/Issues
 
 ## Fixed
 
-- When calculating the savings I first encountered some issues in reading the expenses for the same month as the dates were inputted in a different format. For example, in the expenses_tracker the dates are set at DD-MM-YYYY while on the budget sheet I only have the month as MM. I was able to fix this, by using this piece of code  and the zfill() method. 
+- When calculating the savings I first encountered some issues reading the expenses for the same month as the dates were inputted in a different format. For example, in the expenses_tracker the dates are set at DD-MM-YYYY while on the budget sheet I only have the month as MM. I was able to fix this, by using this piece of code  and the zfill() method. 
 
 ```
 budget_amount = sum(
@@ -141,7 +141,7 @@ budget_amount = sum(
 
 ## Unfixed
 
-- When setting up a budget, at the moment the user can setup multiple budgets for the same month and on the Google Sheet this creates a new entry each time. Instead of having one line for whole the budget for July, I have multiple entries for the budget of that same month. I wasn't able to get the function to delete all rows with the same month, but just the first one if there were more than one. The exact same issue happens with the Savings sheet.
+- When setting up a budget, at the moment the user can setup multiple budgets for the same month and on the Google Sheet this creates a new entry each time. Instead of having one line for all the budget entries for July, I have multiple entries for the budget for that same month. I wasn't able to get the function to delete all rows with the same month, but just the first one if there were more than one. The exact same issue happens with the Savings sheet.
 
 # Deployment
 
