@@ -75,6 +75,15 @@ def manage_menus():
                 month = input("Invalid month format."
                               "Please enter the month (MM: 01, 02, ...):\n")
             amount = float(input("Enter the budget amount:\n"))
+            while True:
+                try:
+                    amount = float(amount)
+                    if amount > 0 and amount <= 1_000_000:
+                        break
+                    else:
+                        print("Invalid amount. Please enter a valid number.")
+                except ValueError:
+                    print("Invalid amount. Please enter a numeric value.")
             set_budget(month, amount)
         elif option == "5":
             month = input(
