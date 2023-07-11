@@ -68,6 +68,9 @@ def manage_menus():
             month = input(
                 "Enter the month (MM: 01, 02, ...):\n"
             )
+            while not is_valid_month(month):
+                month = input("Invalid month format."
+                              "Please enter the month (MM: 01, 02, ...):\n")
             amount = float(input("Enter the budget amount:\n"))
             set_budget(month, amount)
         elif option == "5":
@@ -84,6 +87,9 @@ def manage_menus():
 
 
 def select_category():
+    """
+    Allow user to select a certain category for their expense.
+    """
     while True:
         print("Select a category: ")
         for i, category_name in enumerate(EXPENSE_CATEGORIES):
@@ -346,9 +352,6 @@ def set_budget(month, amount):
     """
     Allow users to set a specific budget in a specific month.
     """
-    while not is_valid_month(month):
-        month = input("Invalid month format."
-                      "Please enter the month (MM: 01, 02, ...):\n")
     budget_sheet = SHEET.worksheet("budget")
     budget_sheet.append_row([month, amount])
     print(f"You have set a budget of €{amount} "
