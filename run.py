@@ -349,29 +349,7 @@ def set_budget(month, amount):
     while not is_valid_month(month):
         month = input("Invalid month format."
                       "Please enter the month (MM: 01, 02, ...):\n")
-    month = month.zfill(2)
     budget_sheet = SHEET.worksheet("budget")
-    budget_records = budget_sheet.get_all_records()
-    for record in budget_records:
-        if str(record["Month"]).zfill(2) == month:
-            overwrite = input(
-                f"A budget for {calendar.month_name[int(month)]} already exist"
-                "Do you want to overwite it? (Y/N)\n"
-            )
-            while overwrite.lower() not in ["y", "n"]:
-                overwrite = input("Invalid input. Please enter: "
-                                  "'Y' to overwrite or"
-                                  "'N' to create a new budget.\n")
-            if overwrite.lower() != "y":
-                budget_sheet.delete_rows(record.row)
-            else:
-                budget_sheet.append_row([month, amount])
-                print(
-                    f"A new budget of €{amount} has been set"
-                    "for the month of {calendar.month_name[int(month)]}."
-                    )
-                print("Budget sheet updated successfully.")
-                return
     budget_sheet.append_row([month, amount])
     print(f"You have set a budget of €{amount} "
           f"for the month of {calendar.month_name[int(month)]}.")
